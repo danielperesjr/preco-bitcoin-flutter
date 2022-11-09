@@ -32,7 +32,8 @@ class _HomeState extends State<Home> {
                 child: Text(
                   "R\$ " + _preco,
                   style: TextStyle(
-                    fontSize: 35
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
               ),
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
                   child: Text(
                       "Atualizar",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20
                     ),
                   ),
                   onPressed: _recuperarPreco,
