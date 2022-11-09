@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -10,10 +12,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  String _preco = "0";
+  String _cotacaoCompraUsd = "0.00";
+  String _cotacaoCompraBrl = "0.00";
 
-  void _recuperarPreco() {
+  void _recuperarPreco() async {
+    String url = "https://blockchain.info/ticker";
+    http.Response response = await http.get(Uri.parse(url));
 
+    Map<String, dynamic> retorno = json.decode(response.body);
+
+    setState(() {
+      _cotacaoCompraUsd = retorno["USD"]["buy"].toString();
+      _cotacaoCompraBrl = retorno["BRL"]["buy"].toString();
+    });
   }
 
   @override
@@ -28,9 +39,19 @@ class _HomeState extends State<Home> {
             children: [
               Image.asset("images/bitcoin.png"),
               Padding(
-                  padding: EdgeInsets.only(top: 66, bottom: 66),
+                padding: EdgeInsets.only(top: 66, bottom: 25),
                 child: Text(
-                  "R\$ " + _preco,
+                  "USD " + _cotacaoCompraUsd,
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 66),
+                child: Text(
+                  "BRL " + _cotacaoCompraBrl,
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold
