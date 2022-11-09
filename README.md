@@ -1,16 +1,27 @@
-# preco_bitcoin
+# Preço do Bitcoin
+> App que informa a cotação do Bitcoin consumindo uma API.
 
-A new Flutter project.
+Projeto para estudo do framework Flutter e da linguagem Dart.
 
-## Getting Started
+Consome a API da Blockchain.info e retorna para o usuário a cotação do Bitcoin em USD e BRL.
 
-This project is a starting point for a Flutter application.
+Conteúdo estudado e implementado neste App: componentes de interface, widgets statefull, atualização de estado e requisições de API/webservice.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshot Android:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<img src="android-screenshot-1.png" width="320" height="658"/>
+<img src="android-screenshot-2.png" width="320" height="658"/>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshot iOS:
+
+<img src="ios-screenshot-1.png" width="320" height="693"/>
+<img src="ios-screenshot-2.png" width="320" height="693"/>
+
+## Histórico de Atualizações:  
+
+* 20221109:
+    * Versão inicial.
+
+## Links:
+
+[https://github.com/danielperesjr/preco-bitcoin-flutter](https://github.com/danielperesjr/preco-bitcoin-flutter)
