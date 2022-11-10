@@ -12,68 +12,90 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  String _cotacaoCompraUsd = "0.00";
-  String _cotacaoCompraBrl = "0.00";
+  late String _cotacaoCompraUsd;
+  late String _cotacaoCompraBrl;
 
-  void _recuperarPreco() async {
+  Future<Map> _recuperarPreco() async {
     String url = "https://blockchain.info/ticker";
     http.Response response = await http.get(Uri.parse(url));
-
-    Map<String, dynamic> retorno = json.decode(response.body);
-
-    setState(() {
-      _cotacaoCompraUsd = retorno["USD"]["buy"].toString();
-      _cotacaoCompraBrl = retorno["BRL"]["buy"].toString();
-    });
+    return json.decode(response.body);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset("images/bitcoin.png"),
-              Padding(
-                padding: EdgeInsets.only(top: 66, bottom: 25),
-                child: Text(
-                  "USD " + _cotacaoCompraUsd,
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-              Padding(
-                  padding: EdgeInsets.only(top: 25, bottom: 66),
-                child: Text(
-                  "BRL " + _cotacaoCompraBrl,
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-              MaterialButton(
-                color: Colors.orange,
-                  textColor: Colors.white,
-                  padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-                  child: Text(
-                      "Atualizar",
-                    style: TextStyle(
-                      fontSize: 20
+    return FutureBuilder<Map>(
+      future: _recuperarPreco(),
+      builder: (context, snapshot){
+        switch(snapshot.connectionState){
+          case ConnectionState.none :
+              _cotacaoCompraUsd = "Tente novamente";
+              _cotacaoCompraBrl = "Tente novamente";
+            break;
+          case ConnectionState.waiting :
+              _cotacaoCompraUsd = "Carregando...";
+              _cotacaoCompraBrl = "Carregando...";
+            break;
+          case ConnectionState.active :
+          case ConnectionState.done :
+            if(snapshot.hasError){
+              _cotacaoCompraUsd = "Erro ao carregar dados";
+              _cotacaoCompraBrl = "Erro ao carregar dados";
+            }else {
+                _cotacaoCompraUsd = snapshot.data!["USD"]["buy"].toString();
+                _cotacaoCompraBrl = snapshot.data!["BRL"]["buy"].toString();
+            }
+            break;
+        }
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: Container(
+            padding: EdgeInsets.all(32),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("images/bitcoin.png"),
+                  Padding(
+                    padding: EdgeInsets.only(top: 66, bottom: 25),
+                    child: Text(
+                      "USD " + _cotacaoCompraUsd,
+                      style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                  onPressed: _recuperarPreco,
-              )
-            ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 25, bottom: 66),
+                    child: Text(
+                      "BRL " + _cotacaoCompraBrl,
+                      style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  MaterialButton(
+                    color: Colors.orange,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
+                    child: Text(
+                      "Atualizar",
+                      style: TextStyle(
+                          fontSize: 20
+                      ),
+                    ),
+                    onPressed: (){
+                      setState(() {
+                      });
+                    },
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
