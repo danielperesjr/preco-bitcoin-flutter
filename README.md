@@ -19,6 +19,8 @@ Conteúdo estudado e implementado neste App: componentes de interface, widgets s
 
 ## Histórico de Atualizações:  
 
+* 20221110:
+   * Implementada validação de conexão com a API.
 * 20221109:
     * Versão inicial.
 
